@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
 import { Route as MeetingsRouteImport } from './routes/meetings'
 import { Route as EmailRouteImport } from './routes/email'
+import { Route as IndexRouteImport } from './routes/index'
 
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
@@ -28,32 +29,41 @@ const EmailRoute = EmailRouteImport.update({
   path: '/email',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/meetings': typeof MeetingsRoute
   '/tasks': typeof TasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/email' | '/meetings' | '/tasks'
+  fullPaths: '/' | '/email' | '/meetings' | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/email' | '/meetings' | '/tasks'
-  id: '__root__' | '/email' | '/meetings' | '/tasks'
+  to: '/' | '/email' | '/meetings' | '/tasks'
+  id: '__root__' | '/' | '/email' | '/meetings' | '/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   EmailRoute: typeof EmailRoute
   MeetingsRoute: typeof MeetingsRoute
   TasksRoute: typeof TasksRoute
@@ -82,10 +92,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   EmailRoute: EmailRoute,
   MeetingsRoute: MeetingsRoute,
   TasksRoute: TasksRoute,
