@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { Toaster } from "sonner";
 
 function NotFoundComponent() {
   return (
@@ -118,8 +121,24 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <Toaster position="top-center" richColors />
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full bg-[var(--gradient-subtle)]">
+          <AppSidebar />
+          <div className="flex-1 flex flex-col min-w-0">
+            <header className="h-12 flex items-center gap-2 border-b border-border/60 bg-background/70 backdrop-blur-md px-3 sticky top-0 z-10">
+              <SidebarTrigger />
+              <div className="text-sm font-medium text-muted-foreground">
+                Aidesk — AI Workplace Productivity Assistant
+              </div>
+            </header>
+            <main className="flex-1 min-w-0">
+              {/* Required: nested routes render here. */}
+              <Outlet />
+            </main>
+          </div>
+        </div>
+      </SidebarProvider>
     </QueryClientProvider>
   );
 }
