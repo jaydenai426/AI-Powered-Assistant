@@ -69,7 +69,7 @@ function TasksPage() {
       planTasks({ data: input }),
     onSuccess: (data) => {
       setPlan(data.plan);
-      setTasks(data.tasks.map((t) => ({ ...t, id: uid(), done: false })));
+      setTasks(data.tasks.map((t: { title: string; description: string; priority: Priority; estimate: string; category: string }) => ({ ...t, id: uid(), done: false })));
       toast.success("Plan ready");
     },
     onError: (err: Error) => toast.error(err.message || "Failed to plan"),
