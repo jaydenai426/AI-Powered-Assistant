@@ -1,5 +1,46 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
+
+// In-memory per-IP rate limit to deter abuse of AI-backed endpoints.
+// Note: Worker isolates may reset this; it's a deterrent, not a hard guarantee.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 8; // per IP per minute per function
+const DAILY_LIMIT_WINDOW_MS = 24 * 60 * 60 * 1000;
+const DAILY_LIMIT_MAX = 60;
+const buckets = new Map<string, { count: number; resetAt: number }>();
+
+function hit(key: string, max: number, windowMs: number) {
+  const now = Date.now();
+  const b = buckets.get(key);
+  if (!b || b.resetAt < now) {
+    buckets.set(key, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+  if (b.count >= max) return false;
+  b.count += 1;
+  return true;
+}
+
+function enforceRateLimit(scope: string) {
+  let ip = "unknown";
+  try {
+    const req = getRequest();
+    ip =
+      req.headers.get("cf-connecting-ip") ||
+      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      req.headers.get("x-real-ip") ||
+      "unknown";
+  } catch {
+    // no request context
+  }
+  if (!hit(`${scope}:m:${ip}`, RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
+    throw new Error("Too many requests. Please wait a moment and try again.");
+  }
+  if (!hit(`${scope}:d:${ip}`, DAILY_LIMIT_MAX, DAILY_LIMIT_WINDOW_MS)) {
+    throw new Error("Daily usage limit reached. Please try again tomorrow.");
+  }
+}
 
 const EmailInputSchema = z.object({
   recipient: z.string().min(1).max(200),
@@ -42,6 +83,7 @@ async function callGateway(system: string, user: string) {
 export const generateEmail = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => EmailInputSchema.parse(data))
   .handler(async ({ data }) => {
+    enforceRateLimit("email");
     const lengthGuide = {
       short: "2-3 sentences",
       medium: "1-2 short paragraphs",
@@ -75,6 +117,7 @@ const MeetingInputSchema = z.object({
 export const summarizeMeeting = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => MeetingInputSchema.parse(data))
   .handler(async ({ data }) => {
+    enforceRateLimit("meeting");
     const system = `You are an expert meeting notes summarizer for busy professionals.
 Respond in strict JSON only, no markdown, no code fences. Shape:
 {
@@ -115,6 +158,7 @@ const TaskInputSchema = z.object({
 export const planTasks = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => TaskInputSchema.parse(data))
   .handler(async ({ data }) => {
+    enforceRateLimit("tasks");
     const horizonGuide = {
       today: "a single focused workday (aim for 4-6 tasks)",
       week: "one work week (aim for 6-10 tasks grouped logically)",
