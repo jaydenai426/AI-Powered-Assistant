@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Mail, FileText, ListChecks, ArrowRight, Zap, Clock, ShieldCheck, Sparkles } from "lucide-react";
+import {
+  Mail, FileText, ListChecks, ArrowRight, Zap, Clock, ShieldCheck, Sparkles,
+  MessageSquare, FlaskConical, BarChart3,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { AiDisclaimer } from "@/components/ai-disclaimer";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -33,6 +37,27 @@ const tools = [
     title: "AI Task Planner",
     desc: "Break any goal into a sequenced, prioritized task plan with time estimates.",
     cta: "Plan a goal",
+  },
+  {
+    to: "/chat" as const,
+    icon: MessageSquare,
+    title: "AI Chatbot",
+    desc: "A conversational assistant that keeps context across the thread. Ideal for quick help.",
+    cta: "Start chatting",
+  },
+  {
+    to: "/research" as const,
+    icon: FlaskConical,
+    title: "AI Research Assistant",
+    desc: "Get structured research briefs with findings, caveats and suggested next steps.",
+    cta: "Run research",
+  },
+  {
+    to: "/insights" as const,
+    icon: BarChart3,
+    title: "Productivity Insights",
+    desc: "See how many tasks Aidesk automated for you and the estimated time saved.",
+    cta: "View insights",
   },
 ];
 
@@ -90,6 +115,10 @@ function Dashboard() {
             </div>
           </div>
         </Card>
+      </section>
+
+      <section className="mt-6">
+        <AiDisclaimer />
       </section>
     </div>
   );
