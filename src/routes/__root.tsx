@@ -83,13 +83,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aidesk — AI Workplace Productivity Assistant" },
-      { name: "description", content: "Automate workplace tasks with AI. Draft polished emails in seconds with the Smart Email Generator." },
+      { title: "Dashboard — Aidesk" },
+      { name: "description", content: "Your AI workplace productivity dashboard. Draft emails, summarize meetings and plan tasks in one place." },
       { name: "author", content: "Aidesk" },
-      { property: "og:title", content: "Aidesk — AI Workplace Productivity Assistant" },
-      { property: "og:description", content: "Automate workplace tasks with AI. Draft polished emails in seconds." },
+      { property: "og:title", content: "Dashboard — Aidesk" },
+      { property: "og:description", content: "Your AI workplace productivity dashboard. Draft emails, summarize meetings and plan tasks in one place." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Dashboard — Aidesk" },
+      { name: "twitter:description", content: "Your AI workplace productivity dashboard. Draft emails, summarize meetings and plan tasks in one place." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2f718517-5ec2-4baa-80d6-14299b487ddf" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/2f718517-5ec2-4baa-80d6-14299b487ddf" },
     ],
     links: [
       {
