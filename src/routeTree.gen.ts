@@ -10,13 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as MeetingsRouteImport } from './routes/meetings'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as EmailRouteImport } from './routes/email'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResearchThreadIdRouteImport } from './routes/research.$threadId'
+import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MeetingsRoute = MeetingsRouteImport.update({
@@ -24,9 +42,29 @@ const MeetingsRoute = MeetingsRouteImport.update({
   path: '/meetings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmailRoute = EmailRouteImport.update({
   id: '/email',
   path: '/email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,38 +72,115 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchThreadIdRoute = ResearchThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => ResearchRoute,
+} as any)
+const ChatThreadIdRoute = ChatThreadIdRouteImport.update({
+  id: '/$threadId',
+  path: '/$threadId',
+  getParentRoute: () => ChatRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/chat': typeof ChatRouteWithChildren
   '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/insights': typeof InsightsRoute
   '/meetings': typeof MeetingsRoute
+  '/research': typeof ResearchRouteWithChildren
+  '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/research/$threadId': typeof ResearchThreadIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/chat': typeof ChatRouteWithChildren
   '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/insights': typeof InsightsRoute
   '/meetings': typeof MeetingsRoute
+  '/research': typeof ResearchRouteWithChildren
+  '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/research/$threadId': typeof ResearchThreadIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/chat': typeof ChatRouteWithChildren
   '/email': typeof EmailRoute
+  '/history': typeof HistoryRoute
+  '/insights': typeof InsightsRoute
   '/meetings': typeof MeetingsRoute
+  '/research': typeof ResearchRouteWithChildren
+  '/settings': typeof SettingsRoute
   '/tasks': typeof TasksRoute
+  '/chat/$threadId': typeof ChatThreadIdRoute
+  '/research/$threadId': typeof ResearchThreadIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/email' | '/meetings' | '/tasks'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/chat'
+    | '/email'
+    | '/history'
+    | '/insights'
+    | '/meetings'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/chat/$threadId'
+    | '/research/$threadId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email' | '/meetings' | '/tasks'
-  id: '__root__' | '/' | '/email' | '/meetings' | '/tasks'
+  to:
+    | '/'
+    | '/auth'
+    | '/chat'
+    | '/email'
+    | '/history'
+    | '/insights'
+    | '/meetings'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/chat/$threadId'
+    | '/research/$threadId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/chat'
+    | '/email'
+    | '/history'
+    | '/insights'
+    | '/meetings'
+    | '/research'
+    | '/settings'
+    | '/tasks'
+    | '/chat/$threadId'
+    | '/research/$threadId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  ChatRoute: typeof ChatRouteWithChildren
   EmailRoute: typeof EmailRoute
+  HistoryRoute: typeof HistoryRoute
+  InsightsRoute: typeof InsightsRoute
   MeetingsRoute: typeof MeetingsRoute
+  ResearchRoute: typeof ResearchRouteWithChildren
+  SettingsRoute: typeof SettingsRoute
   TasksRoute: typeof TasksRoute
 }
 
@@ -78,11 +193,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TasksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/meetings': {
       id: '/meetings'
       path: '/meetings'
       fullPath: '/meetings'
       preLoaderRoute: typeof MeetingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/email': {
@@ -92,6 +235,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -99,13 +256,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research/$threadId': {
+      id: '/research/$threadId'
+      path: '/$threadId'
+      fullPath: '/research/$threadId'
+      preLoaderRoute: typeof ResearchThreadIdRouteImport
+      parentRoute: typeof ResearchRoute
+    }
+    '/chat/$threadId': {
+      id: '/chat/$threadId'
+      path: '/$threadId'
+      fullPath: '/chat/$threadId'
+      preLoaderRoute: typeof ChatThreadIdRouteImport
+      parentRoute: typeof ChatRoute
+    }
   }
 }
 
+interface ChatRouteChildren {
+  ChatThreadIdRoute: typeof ChatThreadIdRoute
+}
+
+const ChatRouteChildren: ChatRouteChildren = {
+  ChatThreadIdRoute: ChatThreadIdRoute,
+}
+
+const ChatRouteWithChildren = ChatRoute._addFileChildren(ChatRouteChildren)
+
+interface ResearchRouteChildren {
+  ResearchThreadIdRoute: typeof ResearchThreadIdRoute
+}
+
+const ResearchRouteChildren: ResearchRouteChildren = {
+  ResearchThreadIdRoute: ResearchThreadIdRoute,
+}
+
+const ResearchRouteWithChildren = ResearchRoute._addFileChildren(
+  ResearchRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  ChatRoute: ChatRouteWithChildren,
   EmailRoute: EmailRoute,
+  HistoryRoute: HistoryRoute,
+  InsightsRoute: InsightsRoute,
   MeetingsRoute: MeetingsRoute,
+  ResearchRoute: ResearchRouteWithChildren,
+  SettingsRoute: SettingsRoute,
   TasksRoute: TasksRoute,
 }
 export const routeTree = rootRouteImport

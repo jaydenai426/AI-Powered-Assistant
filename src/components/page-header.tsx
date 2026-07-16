@@ -7,7 +7,7 @@ export function PageHeader({
   description,
 }: {
   icon: LucideIcon;
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   description: string;
 }) {
@@ -17,7 +17,9 @@ export function PageHeader({
         <Icon className="h-6 w-6 text-primary-foreground" />
       </div>
       <div className="min-w-0">
-        <div className="text-xs uppercase tracking-wider text-primary font-medium">{eyebrow}</div>
+        {eyebrow && (
+          <div className="text-xs uppercase tracking-wider text-primary font-medium">{eyebrow}</div>
+        )}
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mt-0.5">
           {title}
         </h1>
