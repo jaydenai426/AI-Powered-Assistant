@@ -89,6 +89,12 @@ function EmailPage() {
     setTimeout(() => setCopied(null), 1500);
   };
 
+  const starters = [
+    { r: "My manager", p: "Ask for a deadline extension on the Q3 report due Friday." },
+    { r: "The team", p: "Announce a schedule change for tomorrow's stand-up." },
+    { r: "A prospective customer", p: "Follow up after a product demo and propose next steps." },
+  ];
+
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <PageHeader
@@ -200,6 +206,18 @@ function EmailPage() {
               <p className="text-sm text-muted-foreground mt-1 max-w-xs">
                 Fill in the details on the left and hit <em>Generate email</em>.
               </p>
+              <div className="mt-5 w-full max-w-sm space-y-1.5">
+                <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Or try a starter</p>
+                {starters.map((s) => (
+                  <button
+                    key={s.p}
+                    onClick={() => { setRecipient(s.r); setPurpose(s.p); }}
+                    className="w-full text-left text-xs rounded-lg border border-border/70 bg-background/70 hover:bg-muted p-2.5 transition"
+                  >
+                    <span className="font-medium">{s.r}</span> — {s.p}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 

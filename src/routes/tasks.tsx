@@ -119,6 +119,12 @@ function TasksPage() {
 
   const completed = tasks.filter((t) => t.done).length;
 
+  const starters = [
+    "Launch a customer feedback survey and share findings with the team",
+    "Prepare a 15-minute presentation for the leadership meeting next week",
+    "Onboard a new team member in their first two weeks",
+  ];
+
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6 py-8">
       <PageHeader
@@ -208,6 +214,18 @@ function TasksPage() {
               </div>
               <p className="font-medium">Your task plan will appear here</p>
               <p className="text-sm text-muted-foreground mt-1 max-w-xs">Describe a goal on the left and hit generate.</p>
+              <div className="mt-5 w-full max-w-sm space-y-1.5">
+                <p className="text-[11px] uppercase tracking-wide text-muted-foreground">Or try a starter goal</p>
+                {starters.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setGoal(s)}
+                    className="w-full text-left text-xs rounded-lg border border-border/70 bg-background/70 hover:bg-muted p-2.5 transition"
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
 

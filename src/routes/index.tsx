@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { AiDisclaimer } from "@/components/ai-disclaimer";
+import { OnboardingChecklist } from "@/components/onboarding-checklist";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -115,6 +116,10 @@ function Dashboard() {
             </div>
           </div>
         </Card>
+      </section>
+
+      <section className="mt-6">
+        <OnboardingChecklist />
       </section>
 
       <section className="mt-6">
