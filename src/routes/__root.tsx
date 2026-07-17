@@ -169,9 +169,13 @@ function AppShell() {
         <div className="flex-1 flex flex-col min-w-0">
           <header className="h-12 flex items-center gap-2 border-b border-border/60 bg-background/70 backdrop-blur-md px-3 sticky top-0 z-10">
             <SidebarTrigger />
-            <div className="text-sm font-medium text-muted-foreground truncate">
-              Aidesk — AI Workplace Productivity Assistant
+            <div className="text-sm font-medium text-muted-foreground truncate min-w-0 flex-1">
+              <span className="hidden sm:inline">Aidesk — AI Workplace Productivity Assistant</span>
+              <span className="sm:hidden">Aidesk</span>
             </div>
+            <kbd className="hidden md:inline-flex items-center gap-1 rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">
+              ⌘K
+            </kbd>
           </header>
           <main className="flex-1 min-w-0">
             <Outlet />

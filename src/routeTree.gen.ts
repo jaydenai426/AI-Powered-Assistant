@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TasksRouteImport } from './routes/tasks'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as MeetingsRouteImport } from './routes/meetings'
@@ -25,6 +26,11 @@ import { Route as ChatThreadIdRouteImport } from './routes/chat.$threadId'
 const TasksRoute = TasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tasks': typeof TasksRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/research/$threadId': typeof ResearchThreadIdRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tasks': typeof TasksRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/research/$threadId': typeof ResearchThreadIdRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/meetings': typeof MeetingsRoute
   '/research': typeof ResearchRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tasks': typeof TasksRoute
   '/chat/$threadId': typeof ChatThreadIdRoute
   '/research/$threadId': typeof ResearchThreadIdRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/research'
     | '/settings'
+    | '/sitemap.xml'
     | '/tasks'
     | '/chat/$threadId'
     | '/research/$threadId'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/research'
     | '/settings'
+    | '/sitemap.xml'
     | '/tasks'
     | '/chat/$threadId'
     | '/research/$threadId'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/research'
     | '/settings'
+    | '/sitemap.xml'
     | '/tasks'
     | '/chat/$threadId'
     | '/research/$threadId'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   MeetingsRoute: typeof MeetingsRoute
   ResearchRoute: typeof ResearchRouteWithChildren
   SettingsRoute: typeof SettingsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TasksRoute: typeof TasksRoute
 }
 
@@ -191,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/tasks'
       preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -305,6 +325,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeetingsRoute: MeetingsRoute,
   ResearchRoute: ResearchRouteWithChildren,
   SettingsRoute: SettingsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TasksRoute: TasksRoute,
 }
 export const routeTree = rootRouteImport
