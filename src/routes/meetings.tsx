@@ -194,6 +194,12 @@ function MeetingsPage() {
               </div>
               <p className="font-medium">Your structured summary will appear here</p>
               <p className="text-sm text-muted-foreground mt-1 max-w-xs">Paste notes on the left and hit summarize.</p>
+              <button
+                onClick={() => setNotes(SAMPLE)}
+                className="mt-5 text-xs rounded-lg border border-border/70 bg-background/70 hover:bg-muted px-3 py-2 transition"
+              >
+                Try it with sample notes →
+              </button>
             </div>
           )}
 

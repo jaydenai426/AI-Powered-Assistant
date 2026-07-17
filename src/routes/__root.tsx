@@ -17,6 +17,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "sonner";
 import { SessionProvider, useSession } from "@/hooks/use-session";
+import { ThemeSync, themeBootScript } from "@/components/theme-provider";
+import { CommandPalette } from "@/components/command-palette";
 
 function NotFoundComponent() {
   return (
@@ -113,6 +115,7 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <HeadContent />
       </head>
       <body>
@@ -130,6 +133,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Toaster position="top-center" richColors />
       <SessionProvider>
+        <ThemeSync />
         <AppShell />
       </SessionProvider>
     </QueryClientProvider>
@@ -159,6 +163,7 @@ function AppShell() {
 
   return (
     <SidebarProvider>
+      <CommandPalette />
       <div className="min-h-screen flex w-full bg-[var(--gradient-subtle)]">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
